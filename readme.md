@@ -80,6 +80,27 @@ You can install using the following methods (similar to the plugin guide on GP24
 1. Go to Admin > Plugins > tab "Plugin Library".
 2. Find "CheckIP" and click Install.
 
+### Method 4: Install from the command line (CLI, gp247 3.x)
+
+Since gp247 3.x you can download **CheckIP** from the GP247 library and install it straight from the command line, without opening the admin. The plugin has no other package prerequisites. Open a terminal in the website's root folder and run:
+
+```bash
+# 1) Once per website: register the (free) API License that connects the site to the GP247 library
+php artisan gp247:ext-register-license
+
+# 2) Download the plugin from the library and install it
+php artisan gp247:ext-install --type=plugin --key=CheckIP
+```
+
+- Before step 1, make sure `APP_URL` in `.env` is the website's **real domain** (not `http://localhost`) — the license is bound to that domain.
+- Once installed, the plugin is **enabled** and caches are refreshed automatically; nothing else is needed in the admin.
+- The command checks the requirements declared in `gp247.json` (core version, composer packages, required plugins) and stops with a clear message if something is missing.
+- If the folder `app/GP247/Plugins/CheckIP` is already on the server (copied manually or shipped with the installer), the command **installs it in place** instead of downloading it again.
+- The command refuses a plugin that is already installed. To move to a newer version, run `php artisan gp247:ext-update --type=plugin --key=CheckIP`.
+- Append `--json` to get machine-readable output (for scripts/CI).
+- The steps in "Activation & Usage" below still apply.
+- More: [Installing Plugins & Templates](https://github.com/gp247net/gp247-docs/blob/main/extension/install-extension.md) · [Command reference](https://github.com/gp247net/gp247-docs/blob/main/system/command-line-reference.md).
+
 ## Activation & Usage
 - After installation, go to Admin > Security > CheckIP (menu name under SECURITY group) to manage.
 - Create a record:
@@ -97,4 +118,4 @@ You can install using the following methods (similar to the plugin guide on GP24
 Plugin developed by GP247.
 
 ---
-**Last updated:** 2026-08-03
+**Last updated:** 2026-09-25
