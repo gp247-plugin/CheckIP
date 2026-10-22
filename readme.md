@@ -1,6 +1,6 @@
 # CheckIP Plugin (English)
 
-🌐 **English** | [Tiếng Việt](readme_vi.md)
+> 🌐 **Language:** [🇻🇳 Tiếng Việt](./readme_vi.md) · 🇬🇧 English (current) · [🇯🇵 日本語](./readme_ja.md)
 
 CheckIP plugin helps manage and block IP addresses accessing the GP247 system.
 
@@ -118,4 +118,4 @@ php artisan gp247:ext-install --type=plugin --key=CheckIP
 Plugin developed by GP247.
 
 ---
-**Last updated:** 2026-09-25
+**Last updated:** 2026-10-22
