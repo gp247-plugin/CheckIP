@@ -3,6 +3,9 @@
     <x-gp247::card :title="$editingId
         ? gp247_language_render('action.edit')
         : gp247_language_render('Plugins/CheckIP::lang.admin.add_new_title')">
+        <x-slot:actions>
+            <x-gp247::form-new-button :editing="$editingId" action="resetForm" data-testid="admin-check-ip-form-new" />
+        </x-slot:actions>
         <form wire:submit="save" class="space-y-4">
             <x-gp247::input
                 :label="gp247_language_render('Plugins/CheckIP::lang.description')"
@@ -63,15 +66,10 @@
                 @enderror
             </div>
 
-            <div class="flex items-center gap-2 pt-2">
+            <div class="flex items-center justify-end pt-2">
                 <x-gp247::button type="submit" variant="primary" wire:loading.attr="disabled">
                     {{ gp247_language_render('action.submit') }}
                 </x-gp247::button>
-                @if ($editingId)
-                    <x-gp247::button type="button" variant="secondary" wire:click="resetForm">
-                        {{ gp247_language_render('action.reset') }}
-                    </x-gp247::button>
-                @endif
             </div>
         </form>
     </x-gp247::card>

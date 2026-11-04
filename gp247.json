@@ -7,9 +7,9 @@
     "configGroup": "Plugins",
     "configCode": "Security",
     "configKey": "CheckIP",
-    "version": "2.1.5",
-    "requireCore": ["2.1","3.0","3.1"],
-    "requireUpdateFrom": "2.0",
+    "version": "2.1.6",
+    "requireCore": ["3.10"],
+    "minUpdateFrom": "2.0",
     "requireComposerPackages": [],
     "requireGp247Extensions": []
 }
