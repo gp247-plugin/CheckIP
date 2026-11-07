@@ -7,7 +7,7 @@
     "configGroup": "Plugins",
     "configCode": "Security",
     "configKey": "CheckIP",
-    "version": "2.1.6",
+    "version": "2.1.7",
     "requireCore": ["3.10"],
     "minUpdateFrom": "2.0",
     "requireComposerPackages": [],

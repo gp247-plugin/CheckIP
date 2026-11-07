@@ -16,8 +16,8 @@ class CheckIP
     public function handle($request, Closure $next)
     {
         $ipList = $this->ipList();
-        $ipsAllow = \App\GP247\Plugins\CheckIP\Models\CheckIPAccess::getIpsAllow();
-        $ipsDeny = \App\GP247\Plugins\CheckIP\Models\CheckIPAccess::getIpsDeny();
+        $ipsAllow = $this->ipsAllow();
+        $ipsDeny = $this->ipsDeny();
         // Check if any IP in $ipList matches any IP in $ipsAllow, or if allow all ('*'), or is localhost
         if (
             in_array('127.0.0.1', $ipList) || 
@@ -59,21 +59,50 @@ class CheckIP
     }
 
     /**
-     * Resolve the request's client IP(s) used for allow/deny matching.
+     * Resolve the one client IP used for allow/deny matching.
      *
-     * WHY: only the framework-resolved IPs are trusted (Request::ips(), which
-     * honours config/trustedproxy.php). Forwarded headers (X-Forwarded-For,
-     * CF-Connecting-IP) are deliberately NOT read here: reading them directly let
-     * any client spoof their address and bypass every deny rule (e.g. sending
-     * "X-Forwarded-For: 127.0.0.1" matched the localhost allow branch and passed
-     * unconditionally). To trust a real reverse proxy or Cloudflare, configure
-     * TRUSTED_PROXIES so ips() returns the genuine client IP instead.
+     * WHY: only Request::ip() is the visitor — the nearest address that is not a
+     * proxy declared in TRUSTED_PROXIES (config/trustedproxy.php). Request::ips()
+     * also returns every untrusted entry of X-Forwarded-For, including whatever the
+     * visitor wrote at its start (a CDN only appends), so matching against it let
+     * a forged "127.0.0.1" or allow-listed address pass even behind a correctly
+     * declared Cloudflare. Forwarded headers are never read directly either.
      *
-     * @return array<int, string> Unique, framework-resolved client IP chain.
+     * @return array<int, string> The client IP, or an empty list when unknown.
+     *
+     * @aidlc-unit check-ip-plugin
+     * @aidlc-story US-check-ip-plugin-real-client-ip
      */
     protected function ipList()
     {
-        // De-duplicate while dropping empty entries.
-        return array_values(array_unique(array_filter((array) request()->ips())));
+        $ip = (string) request()->ip();
+
+        return $ip === '' ? [] : [$ip];
+    }
+
+    /**
+     * Allowed IPs configured on the CheckIP screen.
+     *
+     * @return array<int, string>
+     *
+     * @aidlc-unit check-ip-plugin
+     * @aidlc-story US-check-ip-plugin-real-client-ip
+     */
+    protected function ipsAllow(): array
+    {
+        return \App\GP247\Plugins\CheckIP\Models\CheckIPAccess::getIpsAllow();
+    }
+
+    /**
+     * Denied IPs configured on the CheckIP screen.
+     *
+     * @return array<int, string>
+     *
+     * @aidlc-unit check-ip-plugin
+     * @aidlc-story US-check-ip-plugin-real-client-ip
+     */
+    protected function ipsDeny(): array
+    {
+        return \App\GP247\Plugins\CheckIP\Models\CheckIPAccess::getIpsDeny();
     }
 }

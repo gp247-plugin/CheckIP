@@ -18,13 +18,13 @@ Plugin CheckIP hỗ trợ quản lý và ngăn chặn IP truy cập vào hệ th
 ## Middleware
 - Lớp: `App\GP247\Plugins\CheckIP\Middleware\CheckIP`
 - Luồng xử lý (rút gọn):
-  1. Lấy IP client từ framework (`request()->ips()`), tôn trọng cấu hình trusted proxy (xem bên dưới).
+  1. Lấy IP client từ framework (`request()->ip()` — một địa chỉ), tôn trọng cấu hình trusted proxy (xem bên dưới).
   2. Nếu IP khớp danh sách allow (hoặc allow `*`) hoặc là localhost (`127.0.0.1`, `::1`) => cho phép.
   3. Ngược lại, nếu IP khớp danh sách deny (hoặc deny `*`) => trả về 403.
   4. Nếu không khớp gì => cho phép.
 
 ## IP client & trusted proxy
-IP client được Laravel xác định qua `request()->ips()`, dựa theo `config/trustedproxy.php`
+IP client được Laravel xác định qua `request()->ip()`, dựa theo `config/trustedproxy.php`
 (giá trị env `TRUSTED_PROXIES`). Các header chuyển tiếp (`X-Forwarded-For`, `CF-Connecting-IP`) **không**
 được tin trừ khi đến từ proxy do bạn khai báo rõ ràng — điều này ngăn client giả mạo header
 (ví dụ `X-Forwarded-For: 127.0.0.1`) để lách các rule deny.
@@ -34,7 +34,11 @@ IP client được Laravel xác định qua `request()->ips()`, dựa theo `conf
 - **Sau reverse proxy / Cloudflare**: đặt `TRUSTED_PROXIES` trong `.env` (ví dụ `127.0.0.1` cho
   `proxy_pass` cục bộ, hoặc dải IP của Cloudflare) để nhận đúng IP người truy cập thật. Nếu không đặt,
   mọi người truy cập sẽ hiện là IP của proxy và các rule allow/deny sẽ áp chung cho tất cả.
+- **Docker** (compose của S-Cart): để trống `TRUSTED_PROXIES` nếu không có proxy phía trước, và không bao giờ
+  dùng `REMOTE_ADDR` hay `*` — sau nginx đi kèm, các giá trị này tin mọi người truy cập.
 - **Localhost** (`127.0.0.1`, `::1`) luôn được cho phép, nên truy cập cục bộ không bao giờ bị khóa.
+- **Từ 2.1.7** luật chỉ so với đúng một địa chỉ đã phân giải này; các bản trước còn so cả mọi địa chỉ chưa
+  được tin nằm trong `X-Forwarded-For`.
 
 > ⚠️ Middleware cũng bảo vệ khu vực **Admin**. Tránh đặt deny `*` (hoặc deny chính IP của bạn) trừ khi có
 > một rule allow tin cậy giữ quyền truy cập — nếu không bạn có thể tự khóa mình và phải sửa trực tiếp

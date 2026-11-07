@@ -18,13 +18,13 @@ CheckIP プラグインは、GP247 システムへのアクセス元 IP の管�
 ## Middleware
 - クラス：`App\GP247\Plugins\CheckIP\Middleware\CheckIP`
 - 処理の流れ（要約）：
-  1. フレームワークからクライアント IP を取得します（`request()->ips()`）。trusted proxy の設定に従います（下記参照）。
+  1. フレームワークからクライアント IP を 1 つだけ取得します（`request()->ip()`）。trusted proxy の設定に従います（下記参照）。
   2. IP が allow リスト（または allow `*`）に一致する、または localhost（`127.0.0.1`、`::1`）の場合 => 許可します。
   3. そうでなく、IP が deny リスト（または deny `*`）に一致する場合 => 403 を返します。
   4. どれにも一致しない場合 => 許可します。
 
 ## クライアント IP と trusted proxy
-クライアント IP は、Laravel が `request()->ips()` によって `config/trustedproxy.php`
+クライアント IP は、Laravel が `request()->ip()` によって `config/trustedproxy.php`
 （env の値 `TRUSTED_PROXIES`）に基づいて判定します。転送ヘッダー（`X-Forwarded-For`、`CF-Connecting-IP`）は、
 明示的に宣言したプロキシから届いたものでない限り**信頼されません**。これにより、クライアントがヘッダーを偽装して
 （例：`X-Forwarded-For: 127.0.0.1`）deny ルールをすり抜けることを防ぎます。
@@ -34,7 +34,11 @@ CheckIP プラグインは、GP247 システムへのアクセス元 IP の管�
 - **リバースプロキシ／Cloudflare の背後**：`.env` に `TRUSTED_PROXIES` を設定します（例：ローカルの
   `proxy_pass` なら `127.0.0.1`、または Cloudflare の IP 範囲）。これで実際の訪問者の IP を正しく取得できます。設定しないと、
   すべての訪問者がプロキシの IP として扱われ、allow/deny ルールが全員に一律に適用されてしまいます。
+- **Docker**（S-Cart の compose）：前段にプロキシがない場合は `TRUSTED_PROXIES` を空のままにし、`REMOTE_ADDR` や `*` は
+  使わないでください。同梱の nginx の背後では、これらはすべての訪問者を信頼してしまいます。
 - **localhost**（`127.0.0.1`、`::1`）は常に許可されるため、ローカルからのアクセスがロックされることはありません。
+- **2.1.7 以降**、ルールは判定済みのこの 1 つのアドレスとだけ照合します。以前のバージョンでは `X-Forwarded-For` に
+  含まれる信頼されていないアドレスもすべて照合していました。
 
 > ⚠️ この Middleware は **Admin** 領域も保護します。信頼できる allow ルールでアクセスを確保していない限り、deny `*`（または
 > ご自身の IP の deny）は設定しないでください。設定すると自分自身を締め出してしまい、復旧にはデータベースを直接

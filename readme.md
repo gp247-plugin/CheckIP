@@ -18,13 +18,13 @@ CheckIP plugin helps manage and block IP addresses accessing the GP247 system.
 ## Middleware
 - Class: `App\GP247\Plugins\CheckIP\Middleware\CheckIP`
 - Flow (simplified):
-  1. Resolve the client IP from the framework (`request()->ips()`), honouring trusted proxies (see below).
+  1. Resolve the client IP from the framework (`request()->ip()` — one address), honouring trusted proxies (see below).
   2. If IP matches allow list (or allow `*`) or is localhost (`127.0.0.1`, `::1`) => allow.
   3. Else, if IP matches deny list (or deny `*`) => return 403.
   4. Otherwise => allow.
 
 ## Client IP & trusted proxies
-The client IP is resolved by Laravel via `request()->ips()`, which honours `config/trustedproxy.php`
+The client IP is resolved by Laravel via `request()->ip()`, which honours `config/trustedproxy.php`
 (the `TRUSTED_PROXIES` env value). Forwarded headers (`X-Forwarded-For`, `CF-Connecting-IP`) are **not**
 trusted unless they come from a proxy you explicitly declare — this prevents a client from spoofing a
 header (e.g. `X-Forwarded-For: 127.0.0.1`) to bypass deny rules.
@@ -34,7 +34,11 @@ header (e.g. `X-Forwarded-For: 127.0.0.1`) to bypass deny rules.
 - **Behind a reverse proxy / Cloudflare**: set `TRUSTED_PROXIES` in `.env` (e.g. `127.0.0.1` for a local
   `proxy_pass`, or Cloudflare's IP ranges) so the genuine visitor IP is detected. If you do not, every
   visitor appears as the proxy's IP and the allow/deny rules apply to all of them together.
+- **Docker** (S-Cart compose): leave `TRUSTED_PROXIES` empty unless a proxy sits in front, and never use
+  `REMOTE_ADDR` or `*` — behind the bundled nginx they trust every visitor.
 - **Localhost** (`127.0.0.1`, `::1`) is always allowed, so local access is never locked out.
+- **Since 2.1.7** the rules are matched against this one resolved address only; earlier versions also
+  matched every untrusted address listed in `X-Forwarded-For`.
 
 > ⚠️ The middleware also protects the **Admin** area. Avoid a deny `*` (or denying your own IP) unless a
 > trusted allow rule keeps your access — otherwise you may lock yourself out and have to edit the database
