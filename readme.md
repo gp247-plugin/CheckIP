@@ -103,7 +103,7 @@ php artisan gp247:ext-install --type=plugin --key=CheckIP
 - The command refuses a plugin that is already installed. To move to a newer version, run `php artisan gp247:ext-update --type=plugin --key=CheckIP`.
 - Append `--json` to get machine-readable output (for scripts/CI).
 - The steps in "Activation & Usage" below still apply.
-- More: [Installing Plugins & Templates](https://github.com/gp247net/gp247-docs/blob/main/extension/install-extension.md) · [Command reference](https://github.com/gp247net/gp247-docs/blob/main/system/command-line-reference.md).
+- More: [Installing Plugins & Templates](https://github.com/gp247net/gp247-docs/blob/main/extension/install-extension.md) · [Command reference](https://github.com/gp247net/gp247-docs/blob/main/cli/cli-extensions.md).
 
 ## Activation & Usage
 - After installation, go to Admin > Security > CheckIP (menu name under SECURITY group) to manage.
