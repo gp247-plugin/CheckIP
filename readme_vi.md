@@ -2,9 +2,9 @@
 
 > 🌐 **Ngôn ngữ:** 🇻🇳 Tiếng Việt (hiện tại) · [🇬🇧 English](./readme.md) · [🇯🇵 日本語](./readme_ja.md)
 
-Plugin CheckIP hỗ trợ quản lý và ngăn chặn IP truy cập vào hệ thống GP247.
+Plugin CheckIP hỗ trợ quản lý và ngăn chặn IP truy cập vào site S-Cart của bạn.
 
-> **Yêu cầu GP247 Core 2.0.** Màn hình quản trị chạy trên shell TailAdmin (Livewire).
+> **Yêu cầu `gp247/core` 3.10 trở lên.** Màn hình quản trị chạy trên shell TailAdmin (Livewire).
 
 ## Tính năng
 - Quản lý danh sách IP theo 2 loại: **allow** và **deny**.
@@ -122,4 +122,4 @@ php artisan gp247:ext-install --type=plugin --key=CheckIP
 Plugin được phát triển bởi GP247.
 
 ---
-**Cập nhật lần cuối:** 2026-10-22
+**Cập nhật lần cuối:** 2026-11-22

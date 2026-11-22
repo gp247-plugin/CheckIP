@@ -2,9 +2,9 @@
 
 > 🌐 **Language:** [🇻🇳 Tiếng Việt](./readme_vi.md) · 🇬🇧 English (current) · [🇯🇵 日本語](./readme_ja.md)
 
-CheckIP plugin helps manage and block IP addresses accessing the GP247 system.
+CheckIP plugin helps manage and block IP addresses accessing your S-Cart site.
 
-> **Requires GP247 Core 2.0.** The admin screen runs on the TailAdmin (Livewire) shell.
+> **Requires `gp247/core` 3.10 or later.** The admin screen runs on the TailAdmin (Livewire) shell.
 
 ## Features
 - Manage IP lists with two types: **allow** and **deny**.
@@ -122,4 +122,4 @@ php artisan gp247:ext-install --type=plugin --key=CheckIP
 Plugin developed by GP247.
 
 ---
-**Last updated:** 2026-10-22
+**Last updated:** 2026-11-22

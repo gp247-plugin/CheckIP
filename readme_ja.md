@@ -2,9 +2,9 @@
 
 > 🌐 **言語:** [🇻🇳 Tiếng Việt](./readme_vi.md) · [🇬🇧 English](./readme.md) · 🇯🇵 日本語（現在）
 
-CheckIP プラグインは、GP247 システムへのアクセス元 IP の管理とブロックを支援します。
+CheckIP プラグインは、S-Cart サイトへのアクセス元 IP の管理とブロックを支援します。
 
-> **GP247 Core 2.0 が必要です。** 管理画面は TailAdmin シェル（Livewire）上で動作します。
+> **`gp247/core` 3.10 以降が必要です。** 管理画面は TailAdmin シェル（Livewire）上で動作します。
 
 ## 機能
 - IP リストを **allow**（許可）と **deny**（拒否）の 2 種類で管理します。
@@ -122,4 +122,4 @@ php artisan gp247:ext-install --type=plugin --key=CheckIP
 このプラグインは GP247 が開発しています。
 
 ---
-**最終更新:** 2026-10-22
+**最終更新:** 2026-11-22
