@@ -103,7 +103,7 @@ php artisan gp247:ext-install --type=plugin --key=CheckIP
 - プラグインがすでにインストールされている場合、コマンドは実行を拒否します。新しいバージョンに上げるには `php artisan gp247:ext-update --type=plugin --key=CheckIP` を実行してください。
 - コマンドの末尾に `--json` を付けると、機械で読み取れる形式で結果を受け取れます（スクリプト／CI 用）。
 - 下記「有効化と使い方」の手順はそのまま必要です。
-- 詳細：[プラグイン・テンプレートのインストールガイド](https://github.com/gp247net/gp247-docs/blob/main/extension/install-extension.md) · [コマンドリファレンス](https://github.com/gp247net/gp247-docs/blob/main/cli/cli-extensions_ja.md)。
+- 詳細：[プラグイン・テンプレートのインストールガイド](https://github.com/gp247-official/gp247-docs/blob/main/extension/install-extension.md) · [コマンドリファレンス](https://github.com/gp247-official/gp247-docs/blob/main/cli/cli-extensions_ja.md)。
 
 ## 有効化と使い方
 - インストール後、Admin > セキュリティ > CheckIP（SECURITY グループ内のメニュー名）で管理します。
@@ -116,7 +116,7 @@ php artisan gp247:ext-install --type=plugin --key=CheckIP
 
 ## リンク
 - 参考ページ（GP247 Store）：`https://gp247.net/en/product/plugin-checkip.html`
-- GitHub（ソースコード）：`https://github.com/gp247net/CheckIP`
+- GitHub（ソースコード）：`https://github.com/gp247-official/CheckIP`
 
 ## ライセンス
 このプラグインは GP247 が開発しています。
